@@ -1,0 +1,29 @@
+[gd_scene load_steps=8 format=3 uid="uid://b2iifxy5w4ctt"]
+
+[ext_resource type="Script" path="res://scripts/main.gd" id="1_3jgxl"]
+[ext_resource type="PackedScene" uid="uid://bryn5sjorfap6" path="res://scenes/world.tscn" id="1_t2aqx"]
+[ext_resource type="PackedScene" uid="uid://cscnjqlvghua8" path="res://scenes/player.tscn" id="2_d15l0"]
+[ext_resource type="PackedScene" uid="uid://icdwd1mestx8" path="res://scenes/enemy_spawner.tscn" id="3_0iv6r"]
+[ext_resource type="Script" path="res://scripts/BulletManager.gd" id="4_ji0eg"]
+[ext_resource type="PackedScene" uid="uid://dko4myi6mv51v" path="res://scenes/bullet.tscn" id="5_dtr21"]
+[ext_resource type="PackedScene" uid="uid://eeksoctg2tco" path="res://scenes/hud.tscn" id="7_nqoyh"]
+
+[node name="Main" type="Node"]
+script = ExtResource("1_3jgxl")
+
+[node name="World" parent="." instance=ExtResource("1_t2aqx")]
+
+[node name="Player" parent="." instance=ExtResource("2_d15l0")]
+
+[node name="BulletManager" type="Node2D" parent="."]
+script = ExtResource("4_ji0eg")
+bullet_scene = ExtResource("5_dtr21")
+
+[node name="EnemySpawner" parent="." instance=ExtResource("3_0iv6r")]
+
+[node name="Hud" parent="." instance=ExtResource("7_nqoyh")]
+offset = Vector2(0, 768)
+transform = Transform2D(1, 0, 0, 1, 0, 768)
+
+[connection signal="shoot" from="Player" to="BulletManager" method="_on_player_shoot"]
+[connection signal="hit_p" from="EnemySpawner" to="." method="_on_enemy_spawner_hit_p"]
